@@ -12,7 +12,7 @@ movies_df = pd.read_csv("./dataset/tmdb_5000_movies.csv")
 
 # merge
 credits_df.columns = ['id', 'title', 'cast', 'crew']
-movies_df = movies_df.merge(credits_df, on="title")
+movies_df = movies_df.merge(credits_df, on="id")
 
 # convert the data into a safe and usable structure.
 features = ["cast", "crew", "keywords", "genres"]
@@ -75,11 +75,11 @@ count_matrix = count_vectorizer.fit_transform(movies_df["soup"])
 cosine_sim = cosine_similarity(count_matrix, count_matrix)
 
 movies_df = movies_df.reset_index()
-indices = pd.Series(movies_df.index, index=movies_df['title'])
+indices = pd.Series(movies_df.index, index=movies_df["id"]).drop_duplicates()
 
 
-def get_recommendations(title, cosine_sim=cosine_sim):
-    idx = indices[title]
+def get_recommendations(id, cosine_sim=cosine_sim):
+    idx = indices[id]
     similarity_scores = list(enumerate(cosine_sim[idx]))
     similarity_scores = sorted(
         similarity_scores, key=lambda x: x[1], reverse=True)
@@ -87,13 +87,13 @@ def get_recommendations(title, cosine_sim=cosine_sim):
     # (a, b) where a is id of movie, b is similarity_scores
 
     movies_indices = [ind[0] for ind in similarity_scores]
-    movies = movies_df["title"].iloc[movies_indices]
+    movies = movies_df["id"].iloc[movies_indices]
     return movies
 
 
 # print("################ Content Based System #############")
 # print("Recommendations for Avatar")
-# print(get_recommendations("Avatar"))
+# print(get_recommendations(19995))
 # print()
 # print("Recommendations for Avengers")
 # print(get_recommendations("The Avengers", cosine_sim))
