@@ -91,9 +91,9 @@ def get_recommendations(title, cosine_sim=cosine_sim):
     return movies
 
 
-print("################ Content Based System #############")
-print("Recommendations for Avatar")
-print(get_recommendations("Avatar"))
-print()
-print("Recommendations for Avengers")
-print(get_recommendations("The Avengers", cosine_sim))
+# print("################ Content Based System #############")
+# print("Recommendations for Avatar")
+# print(get_recommendations("Avatar"))
+# print()
+# print("Recommendations for Avengers")
+# print(get_recommendations("The Avengers", cosine_sim))

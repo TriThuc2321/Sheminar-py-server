@@ -1,0 +1,14 @@
+{
+  "folders": [
+	{
+		"path": "../shinema-client"
+	},
+	{
+		"path": "."
+	},
+	{
+		"path": "../shinema-server"
+	}
+],
+  "settings": {}
+}
