@@ -1,7 +1,9 @@
 from math import fabs
+import re
 import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.preprocessing import normalize
 from scipy import sparse
 from flask import jsonify
 import json
@@ -17,13 +19,25 @@ Y_data = pd.read_excel('CF\data.xlsx', names=r_cols).values
 Ybar_data = Y_data.copy()
 n_users = int(np.max(Y_data[:, 0])) + 1
 n_items = int(np.max(Y_data[:, 1])) + 1
-
+list_users = np.array(np.unique(Y_data[:, 0]))
+list_items = np.array(np.unique(Y_data[:, 1]))
 mu = np.zeros((n_users,))
-
 Ybar = sparse.coo_matrix((Ybar_data[:, 2],
                           (Ybar_data[:, 1], Ybar_data[:, 0])), (n_items, n_users)).tocsr()
+S = cosine_similarity(Ybar.T, Ybar.T, dense_output=False)
 
-S = dist_func(Ybar.T, Ybar.T)
+
+def reload_data():
+    Y_data = pd.read_excel('CF\data.xlsx', names=r_cols).values
+    Ybar_data = Y_data.copy()
+    n_users = int(np.max(Y_data[:, 0])) + 1
+    n_items = int(np.max(Y_data[:, 1])) + 1
+    mu = np.zeros((n_users,))
+    Ybar = sparse.coo_matrix((Ybar_data[:, 2],
+                              (Ybar_data[:, 1], Ybar_data[:, 0])), (n_items, n_users)).tocsr()
+    S = dist_func(Ybar.T, Ybar.T, dense_output=False)
+    list_users = np.array(np.unique(Y_data[:, 0]))
+    list_items = np.array(np.unique(Y_data[:, 1]))
 
 
 def add(new_data):
@@ -32,31 +46,30 @@ def add(new_data):
 
 def normalize_Y():
     users = Y_data[:, 0]
-    for n in range(n_users):
+    for n in list_users:
         ids = np.where(users == n)[0].astype(np.int32)
         item_ids = Y_data[ids, 1]
         ratings = Y_data[ids, 2]
         mu[n] = np.mean(ratings)
         Ybar_data[ids, 2] = ratings - mu[n]
-
     Ybar = sparse.coo_matrix((Ybar_data[:, 2],
                               (Ybar_data[:, 1], Ybar_data[:, 0])), (n_items, n_users))
     Ybar = Ybar.tocsr()
 
 
 def similarity():
-    S = dist_func(Ybar.T, Ybar.T)
+    S = dist_func(Ybar.T, Ybar.T, dense_output=False)
 
 
 def fit():
     normalize_Y()
-    similarity()
+    # similarity()
 
 
 def pred(u, i, normalized=1):
     ids = np.where(Y_data[:, 1] == i)[0].astype(np.int32)
     users_rated_i = (Y_data[ids, 0]).astype(np.int32)
-    sim = S[u, users_rated_i]
+    sim = S[u, users_rated_i].data
     a = np.argsort(sim)[-k:]
     nearest_s = sim[a]
     r = Ybar[i, users_rated_i[a]]
@@ -70,9 +83,10 @@ def recommend(u):
     ids = np.where(Y_data[:, 0] == u)[0]
     items_rated_by_u = Y_data[ids, 1].tolist()
     recommended_items = []
-    for i in range(n_items):
+    for i in list_items:
         if i not in items_rated_by_u:
             rating = pred(u, i)
+           # print(rating)
             if rating > 0:
                 recommended_items.append(i)
 
@@ -80,26 +94,42 @@ def recommend(u):
 
 
 def print_recommendation():
+    reload_data()
     fit()
+    list_users = np.array(np.unique(Y_data[:, 0]))
     print('Recommendation: ')
-    for u in range(n_users):
+    for u in list_users:
         recommended_items = recommend(u)
         print('    for user ', u, ': ', recommended_items)
 
 
-class RV(object):
-    def __init__(self, user_id, array_film_id):
-        self.user_id = user_id
-        self.array_film_id = array_film_id
-
-
 def get_recommendation():
+    reload_data()
     fit()
     arr = []
-    for u in range(n_users):
-        recommended_items = RV(u, array_film_id=recommend(u))
+    for u in list_users:
+        recommended_items = dict()
+        result = dict()
+        result['user_id'] = u
+        result['film_id_array'] = recommend(u)
+        recommended_items[u] = result
         arr.append(recommended_items)
-    return json.dumps([item.__dict__ for item in arr])
+    print(arr)
+    return arr
+    # return json.dumps([item.__dict__ for item in arr])
+
+
+def get_recommendation_by_user(user_id):
+    reload_data()
+    fit()
+    for u in list_users:
+        if (u == user_id):
+            result = dict()
+            result['user_id'] = u
+            result['film_id_arry'] = recommend(u)
+            # print(result)
+            return result
+    return []
 
 
 def update_data(user_id, item_id, rating):
@@ -119,11 +149,19 @@ def update_data(user_id, item_id, rating):
                 sheet.cell(row=i, column=3, value=rating)
                 isExisted = True
                 break
-    if isExisted:
+    if isExisted == False:
         sheet.cell(row=max_row + 1, column=1, value=user_id)
         sheet.cell(row=max_row+1, column=2, value=item_id)
         sheet.cell(row=max_row+1, column=3, value=rating)
     wb_obj.save(path)
 
-# get_recommendation()
-# print_recommendation()
+
+# #update_data(7, 2, 5)
+# # get_recommendation_by_user(7)
+# # get_recommendation()
+print_recommendation()
+# #print(np.array(np.unique(Y_data[:, 0])))
+
+# # list_users = np.array(np.unique(Y_data[:, 0]))
+# # for item in list_users:
+# #     print(item)
