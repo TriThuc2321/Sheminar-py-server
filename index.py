@@ -68,7 +68,6 @@ def create_soup(features):
 
 movies_df["soup"] = movies_df.apply(create_soup, axis=1)
 
-
 count_vectorizer = CountVectorizer(stop_words="english")
 count_matrix = count_vectorizer.fit_transform(movies_df["soup"])
 

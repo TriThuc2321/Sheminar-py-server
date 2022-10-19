@@ -16,7 +16,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/getRS', methods=['POST', 'GET'])
 @cross_origin(origin='*')
 def multi_process():
-    id = request.args.get('movie')
+    id = request.args.get('movieId')
 
     res = index.get_recommendations(int(id))
     ressult = res.to_json()
