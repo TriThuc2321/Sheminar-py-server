@@ -13,7 +13,7 @@ CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-@app.route('/getRS', methods=['POST', 'GET'])
+@app.route('/getRS', methods=['GET'])
 @cross_origin(origin='*')
 def multi_process():
     id = request.args.get('movieId')
