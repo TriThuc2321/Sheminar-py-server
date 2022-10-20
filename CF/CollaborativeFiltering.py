@@ -17,24 +17,27 @@ k = 2
 dist_func = cosine_similarity
 Y_data = pd.read_excel('CF\data.xlsx', names=r_cols).values
 Ybar_data = Y_data.copy()
-n_users = int(np.max(Y_data[:, 0])) + 1
-n_items = int(np.max(Y_data[:, 1])) + 1
+# n_users = len(np.array(np.unique(Y_data[:, 0])))
+
+# n_items = len(np.array(np.unique(Y_data[:, 1])))
 list_users = np.array(np.unique(Y_data[:, 0]))
 list_items = np.array(np.unique(Y_data[:, 1]))
+n_users = len(list_users)
+n_items = len(list_items)
 mu = np.zeros((n_users,))
 Ybar = sparse.coo_matrix((Ybar_data[:, 2],
-                          (Ybar_data[:, 1], Ybar_data[:, 0])), (n_items, n_users)).tocsr()
+                          (Ybar_data[:, 1], Ybar_data[:, 0])), (int(np.max(Y_data[:, 1])) + 1, int(np.max(Y_data[:, 0])) + 1)).tocsr()
 S = cosine_similarity(Ybar.T, Ybar.T, dense_output=False)
 
 
 def reload_data():
     Y_data = pd.read_excel('CF\data.xlsx', names=r_cols).values
     Ybar_data = Y_data.copy()
-    n_users = int(np.max(Y_data[:, 0])) + 1
-    n_items = int(np.max(Y_data[:, 1])) + 1
+    n_users = len(np.array(np.unique(Y_data[:, 0])))
+    n_items = len(np.array(np.unique(Y_data[:, 1])))
     mu = np.zeros((n_users,))
     Ybar = sparse.coo_matrix((Ybar_data[:, 2],
-                              (Ybar_data[:, 1], Ybar_data[:, 0])), (n_items, n_users)).tocsr()
+                              (Ybar_data[:, 1], Ybar_data[:, 0])), (int(np.max(Y_data[:, 1])) + 1, int(np.max(Y_data[:, 0])) + 1)).tocsr()
     S = dist_func(Ybar.T, Ybar.T, dense_output=False)
     list_users = np.array(np.unique(Y_data[:, 0]))
     list_items = np.array(np.unique(Y_data[:, 1]))
@@ -46,15 +49,15 @@ def add(new_data):
 
 def normalize_Y():
     users = Y_data[:, 0]
-    for n in list_users:
+    for n in range(0, n_users - 1):
         ids = np.where(users == n)[0].astype(np.int32)
         item_ids = Y_data[ids, 1]
         ratings = Y_data[ids, 2]
         mu[n] = np.mean(ratings)
         Ybar_data[ids, 2] = ratings - mu[n]
-    Ybar = sparse.coo_matrix((Ybar_data[:, 2],
-                              (Ybar_data[:, 1], Ybar_data[:, 0])), (n_items, n_users))
-    Ybar = Ybar.tocsr()
+    # Ybar = sparse.coo_matrix((Ybar_data[:, 2],
+    #                           (Ybar_data[:, 1], Ybar_data[:, 0])), (n_items, n_users))
+    # Ybar = Ybar.tocsr()
 
 
 def similarity():
@@ -63,7 +66,7 @@ def similarity():
 
 def fit():
     normalize_Y()
-    # similarity()
+    similarity()
 
 
 def pred(u, i, normalized=1):
@@ -75,7 +78,6 @@ def pred(u, i, normalized=1):
     r = Ybar[i, users_rated_i[a]]
     if normalized:
         return (r*nearest_s)[0]/np.abs(nearest_s).sum()
-
     return (r*nearest_s)[0]/np.abs(nearest_s).sum() + mu[n]
 
 
@@ -86,7 +88,6 @@ def recommend(u):
     for i in list_items:
         if i not in items_rated_by_u:
             rating = pred(u, i)
-           # print(rating)
             if rating > 0:
                 recommended_items.append(i)
 
@@ -114,7 +115,6 @@ def get_recommendation():
         result['film_id_array'] = recommend(u)
         recommended_items[u] = result
         arr.append(recommended_items)
-    print(arr)
     return arr
     # return json.dumps([item.__dict__ for item in arr])
 
@@ -122,14 +122,12 @@ def get_recommendation():
 def get_recommendation_by_user(user_id):
     reload_data()
     fit()
+    result = dict()
     for u in list_users:
         if (u == user_id):
-            result = dict()
             result['user_id'] = u
-            result['film_id_arry'] = recommend(u)
-            # print(result)
-            return result
-    return []
+            result['film_id_array'] = recommend(u)
+    return result
 
 
 def update_data(user_id, item_id, rating):
@@ -154,14 +152,26 @@ def update_data(user_id, item_id, rating):
         sheet.cell(row=max_row+1, column=2, value=item_id)
         sheet.cell(row=max_row+1, column=3, value=rating)
     wb_obj.save(path)
+    return "OK"
 
 
-# #update_data(7, 2, 5)
-# # get_recommendation_by_user(7)
-# # get_recommendation()
-print_recommendation()
-# #print(np.array(np.unique(Y_data[:, 0])))
+# print(get_recommendation_by_user(100000))
+#update_data(100000, 3242424, 2)
+# get_recommendation_by_user(7)
+# get_recommendation()
+# print_recommendation()
+#print(np.array(np.unique(Y_data[:, 0])))
 
-# # list_users = np.array(np.unique(Y_data[:, 0]))
-# # for item in list_users:
-# #     print(item)
+# list_users = np.array(np.unique(Y_data[:, 0]))
+# for item in list_users:
+#     print(item)
+
+
+def int_from_object_id(object_id):
+    firstObjectId = '5661728913124370191fa3f8'
+    delta = int(object_id[0: 8], 16)-int(firstObjectId[0: 8], 16)
+    res = str(delta) + str(int(object_id[18: 24], 16))
+    return int(res)
+
+
+# print(int_from_object_id('62488aa75a3bafebc42c30a7'))
