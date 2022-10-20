@@ -25,4 +25,4 @@ def multi_process():
 
 # Start Backend
 if __name__ == '__main__':
-    app.run(host='localhost', port='2321')
+    app.run()
