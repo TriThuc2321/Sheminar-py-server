@@ -1,4 +1,5 @@
 # install: pip install flask flask-cors
+from asyncio.windows_events import NULL
 from flask import Flask
 from flask_cors import CORS, cross_origin
 from flask import request
@@ -30,9 +31,10 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/', methods=['GET'])
 @cross_origin(origin='*')
-def multi_process():
+def get_contentbase_rs():
     id = request.args.get('movieId')
-
+    if (id == NULL):
+        id = 19995
     res = index.get_recommendations(int(id))
     ressult = res.to_json()
     return ressult
