@@ -29,7 +29,7 @@ CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-@app.route('/', methods=['GET'])
+@app.route('/getCB', methods=['GET'])
 @cross_origin(origin='*')
 def get_contentbase_rs():
     id = request.args.get('movieId')
