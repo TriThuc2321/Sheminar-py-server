@@ -28,7 +28,7 @@ CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-@app.route('/getRS', methods=['GET'])
+@app.route('/', methods=['GET'])
 @cross_origin(origin='*')
 def multi_process():
     id = request.args.get('movieId')
@@ -58,4 +58,4 @@ def add_data_cf():
 
 # Start Backend
 if __name__ == '__main__':
-    app.run()
+    app.run(host="127.0.0.1", port=8080, debug=True)
