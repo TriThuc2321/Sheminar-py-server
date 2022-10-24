@@ -29,8 +29,12 @@ CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
+
+
 @app.route('/getCB', methods=['GET'])
-@cross_origin(origin='*')
 def get_contentbase_rs():
     id = request.args.get('movieId')
     if (id == NULL):
@@ -41,7 +45,6 @@ def get_contentbase_rs():
 
 
 @app.route('/getCF', methods=['GET'])
-@cross_origin(origins='*')
 def return_recommend():
     user_id = request.args.get('user')
     res = CollaborativeFiltering.get_recommendation_by_user(int(user_id))
@@ -49,7 +52,6 @@ def return_recommend():
 
 
 @app.route('/addDataCF', methods=['POST'])
-@cross_origin(origins='*')
 def add_data_cf():
     user_id = int(request.args.get('user'))
     item_id = int(request.args.get('item'))
@@ -60,4 +62,4 @@ def add_data_cf():
 
 # Start Backend
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=8080, debug=True)
+    app.run()
