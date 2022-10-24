@@ -15,7 +15,7 @@ r_cols = ['user_id', 'item_id', 'rating']
 uuCF = 1
 k = 2
 dist_func = cosine_similarity
-Y_data = pd.read_excel('CF\data.xlsx', names=r_cols).values
+Y_data = pd.read_excel('./CF/data.xlsx', names=r_cols).values
 Ybar_data = Y_data.copy()
 # n_users = len(np.array(np.unique(Y_data[:, 0])))
 
@@ -31,7 +31,7 @@ S = cosine_similarity(Ybar.T, Ybar.T, dense_output=False)
 
 
 def reload_data():
-    Y_data = pd.read_excel('CF\data.xlsx', names=r_cols).values
+    Y_data = pd.read_excel('./CF/data.xlsx', names=r_cols).values
     Ybar_data = Y_data.copy()
     n_users = len(np.array(np.unique(Y_data[:, 0])))
     n_items = len(np.array(np.unique(Y_data[:, 1])))

@@ -1,5 +1,4 @@
 # install: pip install flask flask-cors
-from asyncio.windows_events import NULL
 from flask import Flask
 from flask_cors import CORS, cross_origin
 from flask import request
@@ -37,8 +36,6 @@ def hello_world():
 @app.route('/getCB', methods=['GET'])
 def get_contentbase_rs():
     id = request.args.get('movieId')
-    if (id == NULL):
-        id = 19995
     res = index.get_recommendations(int(id))
     ressult = res.to_json()
     return ressult
@@ -62,4 +59,4 @@ def add_data_cf():
 
 # Start Backend
 if __name__ == '__main__':
-    app.run()
+    app.run(host="localhost", port=8080, debug=True)
