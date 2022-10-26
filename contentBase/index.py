@@ -5,68 +5,72 @@ import pandas as pd
 import numpy as np
 from ast import literal_eval
 
-# read file
-path = "./data"
-credits_df = pd.read_csv("./dataset/tmdb_5000_credits.csv")
-movies_df = pd.read_csv("./dataset/tmdb_5000_movies.csv")
+# # read file
+# credits_df = pd.read_csv("./dataset/tmdb_5000_credits.csv")
+# movies_df = pd.read_csv("./dataset/tmdb_5000_movies.csv")
 
-# merge
-credits_df.columns = ['id', 'title', 'cast', 'crew']
-movies_df = movies_df.merge(credits_df, on="id")
+# # merge
+# credits_df.columns = ['id', 'title', 'cast', 'crew']
+# movies_df = movies_df.merge(credits_df, on="id")
 
-# convert the data into a safe and usable structure.
-features = ["cast", "crew", "keywords", "genres"]
-for feature in features:
-    movies_df[feature] = movies_df[feature].apply(literal_eval)
-
-
-def get_director(x):
-    for i in x:
-        if i["job"] == "Director":
-            return i["name"]
-    return np.nan
-
-# get the top 3 elements or the entire list whichever is more.
+# # convert the data into a safe and usable structure.
+# features = ["cast", "crew", "keywords", "genres"]
+# for feature in features:
+#     movies_df[feature] = movies_df[feature].apply(literal_eval)
 
 
-def get_list(x):
-    if isinstance(x, list):
-        names = [i["name"] for i in x]
-        if len(names) > 3:
-            names = names[:3]
-        return names
-    return []
+# def get_director(x):
+#     for i in x:
+#         if i["job"] == "Director":
+#             return i["name"]
+#     return np.nan
+
+# # get the top 3 elements or the entire list whichever is more.
 
 
-movies_df["director"] = movies_df["crew"].apply(get_director)
-features = ["cast", "keywords", "genres"]
-for feature in features:
-    movies_df[feature] = movies_df[feature].apply(get_list)
-
-# convert the above feature instances into lowercase and remove all the spaces between them
-
-
-def clean_data(row):
-    if isinstance(row, list):
-        return [str.lower(i.replace(" ", "")) for i in row]
-    else:
-        if isinstance(row, str):
-            return str.lower(row.replace(" ", ""))
-        else:
-            return ""
+# def get_list(x):
+#     if isinstance(x, list):
+#         names = [i["name"] for i in x]
+#         if len(names) > 3:
+#             names = names[:3]
+#         return names
+#     return []
 
 
-features = ['cast', 'keywords', 'director', 'genres']
-for feature in features:
-    movies_df[feature] = movies_df[feature].apply(clean_data)
+# movies_df["director"] = movies_df["crew"].apply(get_director)
+# features = ["cast", "keywords", "genres"]
+# for feature in features:
+#     movies_df[feature] = movies_df[feature].apply(get_list)
+
+# # convert the above feature instances into lowercase and remove all the spaces between them
 
 
-# create a “soup” containing all of the metadata information extracted to input into the vectorizer.
-def create_soup(features):
-    return ' '.join(features['keywords']) + ' ' + ' '.join(features['cast']) + ' ' + features['director'] + ' ' + ' '.join(features['genres'])
+# def clean_data(row):
+#     if isinstance(row, list):
+#         return [str.lower(i.replace(" ", "")) for i in row]
+#     else:
+#         if isinstance(row, str):
+#             return str.lower(row.replace(" ", ""))
+#         else:
+#             return ""
 
 
-movies_df["soup"] = movies_df.apply(create_soup, axis=1)
+# features = ['cast', 'keywords', 'director', 'genres']
+# for feature in features:
+#     movies_df[feature] = movies_df[feature].apply(clean_data)
+
+
+# # create a “soup” containing all of the metadata information extracted to input into the vectorizer.
+# def create_soup(features):
+#     return ' '.join(features['keywords']) + ' ' + ' '.join(features['cast']) + ' ' + features['director'] + ' ' + ' '.join(features['genres'])
+
+
+# movies_df["soup"] = movies_df.apply(create_soup, axis=1)
+# new = movies_df.filter(['id', 'soup'], axis=1)
+# new.to_csv('soup.csv')
+
+movies_df = pd.read_csv("./dataset/soup.csv")
+
 
 count_vectorizer = CountVectorizer(stop_words="english")
 count_matrix = count_vectorizer.fit_transform(movies_df["soup"])
