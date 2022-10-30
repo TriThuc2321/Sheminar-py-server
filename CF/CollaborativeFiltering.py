@@ -55,9 +55,8 @@ def normalize_Y():
         ratings = Y_data[ids, 2]
         mu[n] = np.mean(ratings)
         Ybar_data[ids, 2] = ratings - mu[n]
-    # Ybar = sparse.coo_matrix((Ybar_data[:, 2],
-    #                           (Ybar_data[:, 1], Ybar_data[:, 0])), (n_items, n_users))
-    # Ybar = Ybar.tocsr()
+    Ybar = sparse.coo_matrix((Ybar_data[:, 2],
+                              (Ybar_data[:, 1], Ybar_data[:, 0])), (int(np.max(Y_data[:, 1])) + 1, int(np.max(Y_data[:, 0])) + 1)).tocsr()
 
 
 def similarity():
@@ -116,7 +115,6 @@ def get_recommendation():
         recommended_items[u] = result
         arr.append(recommended_items)
     return arr
-    # return json.dumps([item.__dict__ for item in arr])
 
 
 def get_recommendation_by_user(user_id):
