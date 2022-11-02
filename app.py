@@ -7,6 +7,7 @@ from contentBase import index
 import json
 import numpy
 from CF import CollaborativeFiltering
+from chatbot import chatbot
 
 # Khởi tạo Flask Server Backend
 app = Flask(__name__)
@@ -54,6 +55,13 @@ def add_data_cf():
     item_id = int(request.args.get('item'))
     rating = int(request.args.get('rating'))
     res = CollaborativeFiltering.update_data(user_id, item_id, rating)
+    return res
+
+
+@app.route('/getChatbot', methods=['GET'])
+def get_res_chatbot():
+    msg = request.args.get('msg')
+    res = chatbot.chatbot_response(msg)
     return res
 
 
