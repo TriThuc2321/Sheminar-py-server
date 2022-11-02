@@ -7,7 +7,6 @@ from contentBase import index
 import json
 import numpy
 from CF import CollaborativeFiltering
-from chatbot import chatbot
 
 # Khởi tạo Flask Server Backend
 app = Flask(__name__)
