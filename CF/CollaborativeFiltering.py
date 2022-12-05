@@ -139,7 +139,7 @@ def update_data(user_id, item_id, rating):
     sheet = wb_obj['Sheet1']
     sheet_obj = wb_obj.active
     isExisted = False
-    for i in range(1, max_row + 1):
+    for i in range(1, max_row + 2):
         for j in range(1, max_column + 1):
             USER_ID = sheet_obj.cell(row=i, column=1)
             ITEM_ID = sheet_obj.cell(row=i, column=2)
@@ -148,9 +148,9 @@ def update_data(user_id, item_id, rating):
                 isExisted = True
                 break
     if isExisted == False:
-        sheet.cell(row=max_row + 1, column=1, value=user_id)
-        sheet.cell(row=max_row+1, column=2, value=item_id)
-        sheet.cell(row=max_row+1, column=3, value=rating)
+        sheet.cell(row=max_row + 2, column=1, value=user_id)
+        sheet.cell(row=max_row+2, column=2, value=item_id)
+        sheet.cell(row=max_row+2, column=3, value=rating)
     wb_obj.save(path)
     return "OK"
 
