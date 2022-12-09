@@ -53,12 +53,19 @@ def predict_class(sentence, model):
     return return_list
 
 
+class Response:
+    def __init__(self, tag, message):
+        self.tag = tag
+        self.message = message
+
+
 def getResponse(ints, intents_json):
     tag = ints[0]['intent']
     list_of_intents = intents_json['intents']
     for i in list_of_intents:
         if (i['tag'] == tag):
-            result = random.choice(i['responses'])
+            message = random.choice(i['responses'])
+            result = json.dumps({"tag": tag, "message": message})
             break
     return result
 

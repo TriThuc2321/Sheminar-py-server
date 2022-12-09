@@ -62,6 +62,7 @@ def add_data_cf():
 def get_res_chatbot():
     msg = request.args.get('msg')
     res = chatbot.chatbot_response(msg)
+
     return res
 
 

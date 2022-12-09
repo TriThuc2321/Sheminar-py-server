@@ -1,6 +1,24 @@
 {
   "intents": [
     {
+      "tag": "noanswer",
+      "patterns": [],
+      "responses": [
+        "Sorry, can't understand you",
+        "Please give me more info",
+        "Not sure I understand",
+        "I didn't get that. Can you say it again?",
+        "I missed what you said. What was that?",
+        "Sorry, could you say that again?",
+        "Sorry, can you say that again?",
+        "Can you say that again?",
+        "Sorry, I didn't get that. Can you rephrase?",
+        "I didn't get that. Can you repeat?",
+        "What was that?"
+      ],
+      "context": [""]
+    },
+    {
       "tag": "welcome",
       "patterns": [
         "Hi there",
@@ -47,24 +65,6 @@
       "context": [""]
     },
     {
-      "tag": "noanswer",
-      "patterns": [],
-      "responses": [
-        "Sorry, can't understand you",
-        "Please give me more info",
-        "Not sure I understand",
-        "I didn't get that. Can you say it again?",
-        "I missed what you said. What was that?",
-        "Sorry, could you say that again?",
-        "Sorry, can you say that again?",
-        "Can you say that again?",
-        "Sorry, I didn't get that. Can you rephrase?",
-        "I didn't get that. Can you repeat?",
-        "What was that?"
-      ],
-      "context": [""]
-    },
-    {
       "tag": "popular",
       "patterns": [
         "What is the most popular movies?",
@@ -102,8 +102,9 @@
       "tag": "detail_actor",
       "patterns": [
         "Lookup for details actor",
-        "Searching for detail actor",
-        "I want to search detail actor data"
+        "Searching for detail people",
+        "I want to search detail actor data",
+        "I want to search detail people data"
       ],
       "responses": ["What is the actor name?"],
       "context": [""]
