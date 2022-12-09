@@ -57,6 +57,14 @@ def add_data_cf():
     return res
 
 
+@app.route('/getChatbot', methods=['GET'])
+def get_res_chatbot():
+    msg = request.args.get('msg')
+    res = chatbot.chatbot_response(msg)
+
+    return res
+
+
 # Start Backend
 if __name__ == '__main__':
     app.run(host="localhost", port=8080, debug=True)

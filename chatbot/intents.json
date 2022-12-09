@@ -1,0 +1,127 @@
+{
+  "intents": [
+    {
+      "tag": "noanswer",
+      "patterns": [],
+      "responses": [
+        "Sorry, can't understand you",
+        "Please give me more info",
+        "Not sure I understand",
+        "I didn't get that. Can you say it again?",
+        "I missed what you said. What was that?",
+        "Sorry, could you say that again?",
+        "Sorry, can you say that again?",
+        "Can you say that again?",
+        "Sorry, I didn't get that. Can you rephrase?",
+        "I didn't get that. Can you repeat?",
+        "What was that?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "welcome",
+      "patterns": [
+        "Hi there",
+        "How are you",
+        "Is anyone there?",
+        "Hey",
+        "Hola",
+        "Hello",
+        "Good day"
+      ],
+      "responses": [
+        "Hello, thanks for asking",
+        "Good to see you again",
+        "Hi there, how can I help?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "See you later",
+        "Goodbye",
+        "Nice chatting to you, bye",
+        "Till next time"
+      ],
+      "responses": [
+        "See you!",
+        "Have a nice day",
+        "Bye! Come back again soon."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "That's helpful",
+        "Awesome, thanks",
+        "Thanks for helping me"
+      ],
+      "responses": ["Happy to help!", "Any time!", "My pleasure"],
+      "context": [""]
+    },
+    {
+      "tag": "popular",
+      "patterns": [
+        "What is the most popular movies?",
+        "How can I search popular movies?",
+        "Find me a popular film?",
+        "Find popular",
+        "List of popular movies"
+      ],
+      "responses": ["I have shown you the section of popular movies"],
+      "context": [""]
+    },
+    {
+      "tag": "top",
+      "patterns": [
+        "What is the most top movies?",
+        "How can I search top movies?",
+        "Find me a top film?",
+        "Find top",
+        "List of top movies"
+      ],
+      "responses": ["I have shown you the section of top movies"],
+      "context": [""]
+    },
+    {
+      "tag": "detail_film",
+      "patterns": [
+        "Lookup for details film",
+        "Searching for detail movie",
+        "I want to search detail film data"
+      ],
+      "responses": ["What is the movie name?"],
+      "context": [""]
+    },
+    {
+      "tag": "detail_actor",
+      "patterns": [
+        "Lookup for details actor",
+        "Searching for detail people",
+        "I want to search detail actor data",
+        "I want to search detail people data"
+      ],
+      "responses": ["What is the actor name?"],
+      "context": [""]
+    },
+    {
+      "tag": "contact",
+      "patterns": [
+        "Where I can find more information?",
+        "Information",
+        "Contact infor",
+        "Make contact",
+        "Where do I find your contact information?"
+      ],
+      "responses": [
+        "Please call 0123456789 or send email to shinema@gmail.com for more information"
+      ],
+      "context": [""]
+    }
+  ]
+}
