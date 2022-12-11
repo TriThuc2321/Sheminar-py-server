@@ -60,6 +60,14 @@ def add_data_cf():
 
 @app.route('/getChatbot', methods=['GET'])
 def get_res_chatbot():
+    filmName = request.args.get('film_name')
+    if filmName is not None:
+        return json.dumps({"tag": 'redirect_film', "message": filmName})
+
+    personName = request.args.get('person_name')
+    if personName is not None:
+        return json.dumps({"tag": 'redirect_person', "message": personName})
+
     msg = request.args.get('msg')
     res = chatbot.chatbot_response(msg)
 
