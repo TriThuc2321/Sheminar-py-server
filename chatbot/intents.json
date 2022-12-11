@@ -15,8 +15,7 @@
         "Sorry, I didn't get that. Can you rephrase?",
         "I didn't get that. Can you repeat?",
         "What was that?"
-      ],
-      "context": [""]
+      ]
     },
     {
       "tag": "welcome",
@@ -33,8 +32,7 @@
         "Hello, thanks for asking",
         "Good to see you again",
         "Hi there, how can I help?"
-      ],
-      "context": [""]
+      ]
     },
     {
       "tag": "goodbye",
@@ -45,12 +43,7 @@
         "Nice chatting to you, bye",
         "Till next time"
       ],
-      "responses": [
-        "See you!",
-        "Have a nice day",
-        "Bye! Come back again soon."
-      ],
-      "context": [""]
+      "responses": ["See you!", "Have a nice day", "Bye! Come back again soon."]
     },
     {
       "tag": "thanks",
@@ -61,53 +54,81 @@
         "Awesome, thanks",
         "Thanks for helping me"
       ],
-      "responses": ["Happy to help!", "Any time!", "My pleasure"],
-      "context": [""]
+      "responses": ["Happy to help!", "Any time!", "My pleasure"]
     },
     {
       "tag": "popular",
       "patterns": [
-        "What is the most popular movies?",
-        "How can I search popular movies?",
+        "What is the most popular movie?",
+        "How can I search popular movie?",
+        "Find me a popular movie?",
+        "Find popular",
+        "List of popular movie",
+        "What is the most popular film?",
+        "How can I search popular film?",
         "Find me a popular film?",
         "Find popular",
-        "List of popular movies"
+        "List of popular film"
       ],
-      "responses": ["I have shown you the section of popular movies"],
-      "context": [""]
+      "responses": ["I have shown you the section of popular movie"]
     },
     {
-      "tag": "top",
+      "tag": "upcoming",
       "patterns": [
-        "What is the most top movies?",
-        "How can I search top movies?",
+        "What is the most upcoming movie?",
+        "How can I search upcoming movie?",
+        "Find me a upcoming movie?",
+        "Find upcoming",
+        "List of upcoming movie",
+        "What is the most upcoming film?",
+        "How can I search upcoming film?",
+        "Find me a upcoming film?",
+        "Find upcoming",
+        "List of upcoming film"
+      ],
+      "responses": ["I have shown you the section of upcoming movie"]
+    },
+    {
+      "tag": "top_rated",
+      "patterns": [
+        "What is the most top movie?",
+        "How can I search top movie?",
+        "Find me a top movie?",
+        "Find top",
+        "List of top movie",
+        "What is the most top film?",
+        "How can I search top film?",
         "Find me a top film?",
         "Find top",
-        "List of top movies"
+        "List of top film"
       ],
-      "responses": ["I have shown you the section of top movies"],
-      "context": [""]
+      "responses": ["I have shown you the section of top movie"]
     },
     {
       "tag": "detail_film",
       "patterns": [
-        "Lookup for details film",
+        "Lookup for details movie",
         "Searching for detail movie",
+        "I want to search detail movie data",
+        "Lookup for details film",
+        "Searching for detail film",
         "I want to search detail film data"
       ],
-      "responses": ["What is the movie name?"],
-      "context": [""]
+      "responses": ["What is the movie name?"]
     },
     {
       "tag": "detail_actor",
       "patterns": [
         "Lookup for details actor",
-        "Searching for detail people",
+        "Searching for detail actor",
         "I want to search detail actor data",
+        "I want to search detail actor data",
+        "Lookup for details people",
+        "Searching for detail people",
+        "I want to search detail people data",
         "I want to search detail people data"
       ],
-      "responses": ["What is the actor name?"],
-      "context": [""]
+      "responses": ["What is his/her name?"]
     },
     {
       "tag": "contact",
@@ -120,8 +141,7 @@
       ],
       "responses": [
         "Please call 0123456789 or send email to shinema@gmail.com for more information"
-      ],
-      "context": [""]
+      ]
     }
   ]
 }
