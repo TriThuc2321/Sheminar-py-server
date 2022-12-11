@@ -12,6 +12,10 @@ intents = json.loads(open('chatbot/intents.json').read())
 words = pickle.load(open('chatbot/words.pkl', 'rb'))
 classes = pickle.load(open('chatbot/classes.pkl', 'rb'))
 
+# nltk.download('punkt')
+# nltk.download('omw-1.4')
+# nltk.download('wordnet')
+
 
 def clean_up_sentence(sentence):
     # tokenize the pattern - split words into array
